@@ -1,9 +1,8 @@
-FROM centos:latest
+FROM nginx
 
-RUN yum -y install httpd
 
-COPY index.html /var/www/html/
 
-CMD [“/usr/sbin/httpd”, “-D”, “FOREGROUND”]
+COPY index.html /usr/share/nginx/html/index.html
+
 
 EXPOSE 80
