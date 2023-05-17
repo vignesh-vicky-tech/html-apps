@@ -1,1 +1,49 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: kaniko-pipeline
+spec:
+  workspaces:
+    - name: git-source # attach a volume to store source code
+  params:
+    - name: git_revision # from PipelineRun
+  tasks:
+    - name: fetch-from-git # first task, clone project
+      taskRef:
+        name: git-clone # using git-clone task that we installed from the Tekton hub
+      params:
+       - name: url
+         value: https://github.com/vignesh-vicky-tech/html-apps.git
+       - name: revision
+         value: $(params.git_revision) # refers from PipelineRun
+      workspaces:
+       - name: output
+         workspace: git-source
+    - name: build-image # second task, build an image
+      runAfter: [ fetch-from-git ] # to run after first task
+      taskRef:
+        name: kaniko # using kaniko task that we installed from Tekton hub
+      params:
+        - name: IMAGE
+          value: vigneshvicky12345/maven # replace with your own registry
+        - name: CONTEXT
+          value: source
+        - name: DOCKERFILE
+          value: $(workspaces.source.path)/source/Dockerfile
+      workspaces:
+        - name: source
+          workspace: git-source
+    - name: create-deployment # The name of the third and final task
+      taskRef:
+        name: kubernetes-actions # The name of the task this pipeline should use
+      runAfter:
+        - build-image
+      workspaces:
+        - name: manifest-dir
+          workspace: git-source
+      params:
+        - name: script
+          value: |
+            kubectl apply -f https://raw.githubusercontent.com/vignesh-vicky-tech/html-apps/main/manifest/deployment.yaml
+            kubectl rollout restart deployment php -n default
 
