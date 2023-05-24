@@ -14,7 +14,7 @@ spec:
    spec:                  
      containers:
      - name: web-app
-       image: vigneshvicky12345/maven
+       image: vigneshvicky12345/maven:1d949758987929525ddeeb2226f13d535cd33930
        imagePullPolicy: Always
        ports:
        - containerPort: 80
