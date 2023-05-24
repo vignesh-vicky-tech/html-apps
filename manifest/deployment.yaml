@@ -14,7 +14,7 @@ spec:
    spec:                  
      containers:
      - name: php-app
-       image: vigneshvicky12345/maven:latest
+       image: vigneshvicky12345/maven
        imagePullPolicy: Always
        ports:
        - containerPort: 80
