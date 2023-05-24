@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: htmlweb
+  name: demo-deploy
 spec:
  replicas: 3
  selector:
    matchLabels:
-     app: web-app
+     app: demo-app
  template:
    metadata:
      labels:
-       app: web-app
+       app: demo-app
    spec:                  
      containers:
-     - name: web-app
-       image: vigneshvicky12345/maven:1d949758987929525ddeeb2226f13d535cd33930
+     - name: demo-app
+       image: vigneshvicky12345/maven:latest
        imagePullPolicy: Always
        ports:
        - containerPort: 80
@@ -22,7 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: htmlweb-service
+  name: demo-service
 spec:
   type: NodePort
   selector:
