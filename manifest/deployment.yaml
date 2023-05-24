@@ -28,6 +28,6 @@ spec:
   selector:
     app: web-app
   ports:
-    - port: 8084
+    - port: 8087
       protocol: TCP
       targetPort: 80
