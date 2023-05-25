@@ -6,14 +6,14 @@ spec:
  replicas: 3
  selector:
    matchLabels:
-     app: demo-app
+     app: web-app
  template:
    metadata:
      labels:
-       app: demo-app
+       app: web-app
    spec:                  
      containers:
-     - name: demo-app
+     - name: web-app
        image: vigneshvicky12345/maven:latest
        imagePullPolicy: Always
        ports:
@@ -26,7 +26,7 @@ metadata:
 spec:
   type: NodePort
   selector:
-    app: demo-app
+    app: web-app
   ports:
     - port: 8086
       protocol: TCP
